@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DarkNaku.CoroutineStream
 {
-    public class Task : CustomYieldInstruction 
+    public class CSTask : CustomYieldInstruction 
     {
         public bool Stoped => _stoped;
         public bool Paused => _paused;
@@ -21,7 +21,7 @@ namespace DarkNaku.CoroutineStream
         private IEnumerator[] _tasks;
         private MonoBehaviour _player;
 
-        public Task(MonoBehaviour player, params IEnumerator[] tasks) 
+        public CSTask(MonoBehaviour player, params IEnumerator[] tasks) 
         {
             if (player == null)
             {

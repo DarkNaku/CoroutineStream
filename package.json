@@ -1,12 +1,10 @@
 {
   "name": "com.darknaku.coroutinestream",
   "displayName": "Coroutine Stream",
-  "version": "1.0.0",
-  "unity" : "2018.3",
-  "author" : "DarkNaku",
-  "description" : "DarkNaku Coroutine Stream Package - A package for helps in executing coroutines sequentially or simultaneously.",
-  "dependencies": {
-  },
+  "version": "1.0.1",
+  "unity": "2018.3",
+  "author": "DarkNaku",
+  "description": "DarkNaku Coroutine Stream Package - A package for helps in executing coroutines sequentially or simultaneously.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DarkNaku/CoroutineStream.git"

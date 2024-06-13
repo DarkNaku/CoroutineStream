@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace DarkNaku.CoroutineStream
@@ -11,9 +12,9 @@ namespace DarkNaku.CoroutineStream
 
         private bool _stoped;
         private bool _paused;
-        private Task _current;
+        private CSTask _current;
         private bool _completed;
-        private Queue<Task> _tasks;
+        private Queue<CSTask> _tasks;
         private Coroutine _coroutine;
         private MonoBehaviour _player;
         private System.Action _onComplete;
@@ -27,7 +28,7 @@ namespace DarkNaku.CoroutineStream
             }
             
             _player = player;
-            _tasks = new Queue<Task>();
+            _tasks = new Queue<CSTask>();
         }
 
         public CoroutineStream Pause() {
@@ -72,31 +73,31 @@ namespace DarkNaku.CoroutineStream
 
         public CoroutineStream Append(params IEnumerator[] coroutines) 
         {
-            Enqueue(new Task(_player, coroutines));
+            Enqueue(new CSTask(_player, coroutines));
             return this;
         }
 
         public CoroutineStream Interval(float seconds) 
         {
-            Enqueue(new Task(_player, WaitForSeconds(seconds)));
+            Enqueue(new CSTask(_player, WaitForSeconds(seconds)));
             return this;
         }
 
         public CoroutineStream Until(System.Func<bool> predicate) 
         {
-            Enqueue(new Task(_player, WaitUntil(predicate)));
+            Enqueue(new CSTask(_player, WaitUntil(predicate)));
             return this;
         }
 
         public CoroutineStream While(System.Func<bool> predicate) 
         {
-            Enqueue(new Task(_player, WaitWhile(predicate)));
+            Enqueue(new CSTask(_player, WaitWhile(predicate)));
             return this;
         }
 
         public CoroutineStream Callback(System.Action callback) 
         {
-            Enqueue(new Task(_player, CoCallback(callback)));
+            Enqueue(new CSTask(_player, CoCallback(callback)));
             return this;
         }
 
@@ -105,8 +106,16 @@ namespace DarkNaku.CoroutineStream
             _onComplete = callback;
             return this;
         }
+
+        public async Task Async()
+        {
+            while (_stoped == false && _completed == false)
+            {
+                await Task.Yield();
+            }
+        }
         
-        private void Enqueue(Task task) 
+        private void Enqueue(CSTask task) 
         {
             _tasks.Enqueue(task);
             
