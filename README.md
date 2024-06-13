@@ -136,7 +136,7 @@
   CSPlayer.CoroutineStream().OnComplete(() => Debug.Log("Completed !!!));
 ```
 
-##### public async Task Async();
+##### public async Task Async();
 
 - async 형식으로 반환합니다.
 
